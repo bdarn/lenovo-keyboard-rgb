@@ -1,0 +1,15 @@
+# Udev rules for Razer BlackWidow Elite RGB Keyboard
+# This allows non-root users to control the RGB keyboard
+#
+# Installation:
+#   sudo cp 99-razer-keyboard.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules
+#   sudo udevadm trigger
+#
+# You may need to unplug and replug the keyboard or reboot
+
+# Razer BlackWidow Elite (Product ID: 0228)
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0228", MODE="0666", GROUP="users"
+
+# Also set permissions on the sysfs attributes for RGB control
+SUBSYSTEM=="hid", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0228", RUN+="/bin/sh -c 'chmod 0666 /sys/%p/matrix_*'"

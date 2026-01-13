@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Omarchy theme-set hook
+# Automatically syncs BOTH Legion and Razer keyboard RGB when theme changes
+#
+# Installation:
+#   1. Edit SCRIPT_DIR below to match your installation location
+#   2. cp omarchy-hook-theme-set ~/.config/omarchy/hooks/theme-set
+#   3. chmod +x ~/.config/omarchy/hooks/theme-set
+#
+
+THEME_NAME="$1"
+
+# EDIT THIS: Set to your rgb-sync.sh installation directory
+SCRIPT_DIR="/home/me/documents/lenovo-keyboard-rgb"
+
+RGB_SCRIPT="$SCRIPT_DIR/rgb-sync.sh"
+LOG_FILE="/tmp/omarchy-rgb-hook.log"
+
+# Log hook execution for debugging
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Hook triggered for theme: $THEME_NAME" >> "$LOG_FILE"
+
+# Sync both keyboards with the theme
+if [ -f "$RGB_SCRIPT" ]; then
+    "$RGB_SCRIPT" theme "$THEME_NAME" >> "$LOG_FILE" 2>&1 &
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Launched RGB sync in background" >> "$LOG_FILE"
+else
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - ERROR: rgb-sync.sh not found at $RGB_SCRIPT" >> "$LOG_FILE"
+fi

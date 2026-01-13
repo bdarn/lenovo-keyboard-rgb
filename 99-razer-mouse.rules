@@ -1,0 +1,15 @@
+# Udev rules for Razer DeathAdder Essential Mouse RGB
+# Allows non-root users to control the mouse LED via OpenRazer
+#
+# Installation:
+#   sudo cp 99-razer-mouse.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules
+#   sudo udevadm trigger
+#
+# You may need to unplug and replug the mouse
+
+# Razer DeathAdder Essential (Product ID: 0098)
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0098", MODE="0666", GROUP="users"
+
+# Set permissions on sysfs attributes for LED control
+SUBSYSTEM=="hid", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0098", RUN+="/bin/sh -c 'chmod 0666 /sys/%p/logo_*'"

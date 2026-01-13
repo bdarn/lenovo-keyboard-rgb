@@ -1,0 +1,19 @@
+# Udev rules for Lenovo Legion RGB Keyboard
+# This allows non-root users to control the RGB keyboard
+#
+# Installation:
+#   sudo cp 99-legion-rgb.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules
+#   sudo udevadm trigger
+#
+# You may need to unplug and replug the keyboard or reboot
+
+# ITE Device 8910 (Product ID: c101)
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="048d", ATTRS{idProduct}=="c101", MODE="0666", GROUP="users"
+
+# ITE Device 8295 (Product ID: c965)
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="048d", ATTRS{idProduct}=="c965", MODE="0666", GROUP="users"
+
+# Alternative: restrict to a specific group (uncomment and modify)
+# SUBSYSTEM=="hidraw", ATTRS{idVendor}=="048d", ATTRS{idProduct}=="c101", MODE="0660", GROUP="input"
+# SUBSYSTEM=="hidraw", ATTRS{idVendor}=="048d", ATTRS{idProduct}=="c965", MODE="0660", GROUP="input"
